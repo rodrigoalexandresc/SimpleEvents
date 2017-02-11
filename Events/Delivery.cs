@@ -10,7 +10,7 @@ namespace Events
     {
         public Guid DeliveryId { get; set; }
 
-        public Guid OrderId { get; set; }
+        public Order Order { get; set; }
 
         public DateTime DeliveryDate { get; set; }
     }

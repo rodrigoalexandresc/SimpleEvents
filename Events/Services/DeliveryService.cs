@@ -9,9 +9,9 @@ namespace Events.Services
 {
     public class DeliveryService
     {
-        public void ConfirmDelivery(Guid orderId)
+        public void ConfirmDelivery(Order order)
         {
-            var delivery = new Delivery { DeliveryDate = DateTime.Now, OrderId = orderId };
+            var delivery = new Delivery { DeliveryDate = DateTime.Now, Order = order };
             EventDispatcher.Instance().Dispatch(new DeliveryConfirmedEvent { Delivery = delivery });
         }
     }

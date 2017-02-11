@@ -46,6 +46,8 @@
     <Compile Include="Delivery.cs" />
     <Compile Include="EventDispatcher.cs" />
     <Compile Include="Events\DeliveryConfirmedEvent.cs" />
+    <Compile Include="Handlers\DeliveryConfirmedOrderUpdate.cs" />
+    <Compile Include="Handlers\DeliveryConfirmedSendEmail.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

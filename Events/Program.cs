@@ -1,4 +1,5 @@
 ﻿using Events.Events;
+using Events.Handlers;
 using Events.Services;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,12 @@ namespace Events
             var orderId = Guid.NewGuid();
             var myOrder = new Order { OrderId = orderId, Status = 1, DeliveryDate = null };
 
-            EventDispatcher.Instance().Handlers.Add(typeof(DeliveryConfirmedEvent), delivery =>
-            {
-                myOrder.DeliveryDate = (delivery as DeliveryConfirmedEvent).Delivery.DeliveryDate;
-                myOrder.Status = 2;
-            });
+            EventDispatcher.Instance().AddHandler(typeof(DeliveryConfirmedEvent), new DeliveryConfirmedOrderUpdate());
+            EventDispatcher.Instance().AddHandler(typeof(DeliveryConfirmedEvent), new DeliveryConfirmedSendEmail());//
 
             Console.WriteLine(myOrder.Status + " " + myOrder.DeliveryDate);
 
-            new DeliveryService().ConfirmDelivery(orderId);
+            new DeliveryService().ConfirmDelivery(myOrder);
 
             Console.WriteLine(myOrder.Status + " " + myOrder.DeliveryDate);
 

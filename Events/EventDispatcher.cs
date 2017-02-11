@@ -19,17 +19,30 @@ namespace Events
 
         public EventDispatcher()
         {
-            Handlers = new Dictionary<Type, Action<object>>();
+            Handlers = new Dictionary<Type, IList<IHandler>>();
         }
 
-        public Dictionary<Type, Action<object>> Handlers;
+        public void AddHandler(Type eventType, IHandler handler)
+        {
+            if (!Handlers.ContainsKey(eventType))
+                Handlers.Add(eventType, new List<IHandler>());
+
+            Handlers[eventType].Add(handler);
+        }
+
+        public Dictionary<Type, IList<IHandler>> Handlers;
 
         public void Dispatch(object myEvent)
         {
-            foreach (var handler in Handlers.Where(o => o.Key == myEvent.GetType()))
+            foreach (var handler in Handlers[myEvent.GetType()])
             {
-                handler.Value.Invoke(myEvent);
+                handler.Handle(myEvent);
             }
         }
+    }
+
+    public interface IHandler 
+    {
+        void Handle(dynamic e);
     }
 }
